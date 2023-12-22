@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p>You are logged in as {{request.user}}</p>
+<form method="post" action="{% url 'user_logout' %}">
+{% csrf_token %}
+<button type="submit">Logout</button>
+</form>
+{% if is_student and table_list %}
+<p>You have been set these time tables.</p>
+<p>{%for table in table_list%}{{table}} {%endfor%}</p>
+<p><a href="{% url 'play' %}">Practise these times tables</a></p>
+{% endif %}
+<p><a href="{% url 'play_all' %}">Practise all times tables</a></p>
+{% else %}
+<p><a href="{% url 'user_login' %}">Login</a></p>
+{% endif %}
+{% if is_teacher %}
+<p><a href="{% url 'teach' %}">Set times tables</a></p>
+<p><a href="{% url 'stats' %}">View stats for individual students</a></p>
+<p><a href="{% url 'class_stats' %}">View stats for whole class</a></p>
+<p><a href="{% url 'class_flash' %}">Download flashcards for all students</a></p>
+{% endif %}
+{% if is_admin %}
+<p><a href="{% url 'create_user' %}">Add user</a></p>
+<p><a href="{% url 'add_students' %}">Assign students to teacher</a></p>
+<p><a href="{% url 'remove_students' %}">Remove students from teacher</a></p>
+{% endif %}
+{% if message %}
+<p>{{message}}</p>
+{% endif %}
+{% endblock %}

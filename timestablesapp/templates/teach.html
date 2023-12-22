@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <form method="post" action="teach">
+    {% csrf_token %}
+    {% for table in array_of_tables %}
+    
+    {% for t in table%}
+    {% if forloop.first %}
+        <!-- This is the first iteration -->
+        <p>{{t.user_tested}} </p>
+    {% endif %}
+        
+    
+        {%if t.set%}
+            <div style="display:inline" >
+            <div style="display:inline-block" >
+            <label>{{t.table_tested}}</label>
+            <br>
+            <input  type="checkbox"  name="set" value="{{t.user_tested}}:{{t.table_tested}}" checked>
+            </div>
+            </div>
+        
+        {%else%}
+            <div style="display:inline" >
+            <div style="display:inline-block" >
+            <label>{{t.table_tested}}</label>
+            <br>
+            <input  type="checkbox"  name="set" value="{{t.user_tested}}:{{t.table_tested}}">
+            </div>
+            </div>
+        
+        {%endif%}
+       
+    {% endfor %}
+    
+    <br>
+    {% endfor %}
+    <br>
+    <button type="submit">submit</button>
+    </form>
+    
+{% endblock %}

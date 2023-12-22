@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    
+    <form action="{% url 'remove_students' %}" method="post">
+    {% csrf_token %}
+    
+    {% for student in students%}
+    <label>{{student}}: {{student.classes}}'s class</label>
+    <input  type="checkbox"  name="remove" value="{{student}}">
+    <br>
+    {% endfor %}
+    
+    <button type="submit">Submit</button>
+    </form>
+    
+    
+{% endblock %}

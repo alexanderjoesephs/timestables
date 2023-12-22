@@ -1,0 +1,34 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    
+
+
+    {% for table in array_of_tables %}
+    
+    {% for t in table%}
+    {% if forloop.first %}
+        <!-- This is the first iteration -->
+        <p>{{t.user_tested}} has been set these tables</p>
+        
+    {% endif %}
+
+    {{t.table_tested}}
+
+    {% if forloop.last %}
+        <!-- This is the first iteration -->
+        
+        <p><a href="/timestablesapp/stats_set/{{t.user_tested}}">Set tables</a></p>
+        <p><a href="/timestablesapp/stats/{{t.user_tested}}">All tables</a></p>
+    {% endif %}
+        
+    {%endfor%}
+        
+    {%endfor%}
+
+            
+        
+
+
+    
+{% endblock %}

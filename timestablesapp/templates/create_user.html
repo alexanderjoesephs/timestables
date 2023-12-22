@@ -1,0 +1,19 @@
+<!-- index.html -->
+{% extends 'index.html' %}
+
+{% block title %}Home - Your App{% endblock %}
+
+{% block content %}
+    <form method="POST" actions="">
+        {% csrf_token %}
+        {% for field in form %}
+            {{field.label}}
+            {{field}}
+            <br>
+        {%endfor%}
+        {%if form%}
+        <button type="submit" name="Create User">submit</button>
+        {% endif %}
+        <p>{{message}}</p>  
+    </form>
+{% endblock %}

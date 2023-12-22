@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+  <form class="form" method="post" action="{% url 'user_login' %}">
+    {% csrf_token %}
+    <p>Username</p>
+    <input name="username" type="text">
+    <p>Password</p>
+    <input name="password" type="password">
+    <br>
+    <button type="submit">Login</button>
+   {% if message %}
+    {{message}}
+   {% endif %}
+  </form>
+{% endblock %}

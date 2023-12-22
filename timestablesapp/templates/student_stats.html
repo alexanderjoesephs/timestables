@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+    <h3>Stats for {{student}}</h3>
+    {% if message %}
+    <p>{{message}}</p>
+    {% else %}
+    <img src="data:image/png;base64,{{ heatmap_image }}" alt="Heatmap">
+    <img src="data:image/png;base64,{{ heatmap_image2 }}" alt="Heatmap">
+    <h4>The ten questions {{student}} should focus on</h4>
+    {% for question in question_list %}
+    <p>{{question}}</p>
+    {% endfor %}
+    <p><a href="{{student}}/flash">Get questions as flashcards</a></p>
+    {% endif %}
+    
+{% endblock %}
