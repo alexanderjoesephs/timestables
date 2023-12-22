@@ -258,7 +258,7 @@ def student_stats(request,student):
     # Display the pivot table
     plt.figure(figsize=(10, 8))
     sns.heatmap(pivot_table, annot=True, fmt=".2f", cmap="RdYlGn", cbar_kws={'label': 'Percentage Correct'})
-    plt.title('Percentage Correct Heatmap for x vs y')
+    plt.title('Percentage correct heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -274,8 +274,9 @@ def student_stats(request,student):
 
     pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
     plt.figure(figsize=(10, 8))
-    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r", cbar_kws={'label': 'Average time'})
-    plt.title('Average time Heatmap for x vs y')
+    norm = plt.Normalize(vmin=0, vmax=6010)
+    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r",norm=norm, cbar_kws={'label': 'Average time'})
+    plt.title('Average time of correct answers heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -365,6 +366,9 @@ def flash(request,student):
         
     print('list')
     print(question_list)
+
+    if len(question_list) < 10:
+        return render(request,'error.html',{'error':'student has less than 10 attempts'})
 
     for i in [0,2,4,6,8]:
         mem = answer_list[i]
@@ -527,7 +531,7 @@ def student_stats_set(request,student):
     # Display the pivot table
     plt.figure(figsize=(10, 8))
     sns.heatmap(pivot_table, annot=True, fmt=".2f", cmap="RdYlGn", cbar_kws={'label': 'Percentage Correct'})
-    plt.title('Percentage Correct Heatmap for x vs y')
+    plt.title('Percentage correct heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -543,8 +547,9 @@ def student_stats_set(request,student):
 
     pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
     plt.figure(figsize=(10, 8))
-    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r", cbar_kws={'label': 'Average time'})
-    plt.title('Average time Heatmap for x vs y')
+    norm = plt.Normalize(vmin=0, vmax=6010)
+    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r",norm=norm, cbar_kws={'label': 'Average time'})
+    plt.title('Average time of correct answers heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -651,6 +656,9 @@ def flash_set(request,student):
         
     print('list')
     print(question_list)
+
+    if len(question_list) < 10:
+        return render(request,'error.html',{'error':'student has less than 10 attempts'})
 
     for i in [0,2,4,6,8]:
         mem = answer_list[i]
@@ -841,112 +849,114 @@ def class_flash(request):
             answer_string = f"{q.answer}"
             question_list.append(question_string)
             answer_list.append(answer_string)
+
+
+        if len(question_list) > 9:
+            print('list')
+            print(question_list)
+
+            for i in [0,2,4,6,8]:
+                mem = answer_list[i]
+                answer_list[i] = answer_list[i+1]
+                answer_list[i+1] = mem
+
+            print(answer_list)
+
+        
+
+
             
-        print('list')
-        print(question_list)
+            c.setFont("Helvetica", font_size)
 
-        for i in [0,2,4,6,8]:
-            mem = answer_list[i]
-            answer_list[i] = answer_list[i+1]
-            answer_list[i+1] = mem
+            # Draw dotted grids and add text for the first page
+            for row in range(num_rows + 1):  # +1 to draw the bottommost horizontal line
+                y = row * (height / num_rows)
+                c.setStrokeColor(colors.black)
+                c.setDash(3, 3)  # Set a 3x3 dot pattern for dotted lines
+                c.line(0, y, width, y)
 
-        print(answer_list)
+            for col in range(num_columns + 1):  # +1 to draw the rightmost vertical line
+                x = col * (width / num_columns)
+                c.line(x, 0, x, height)
 
-    
+            
+            question_index = 0
+            # Add text to each grid cell for the first page
+            for row in range(num_rows):
+                for col in range(num_columns):
+                    x_start = col * (width / num_columns)
+                    x_end = (col + 1) * (width / num_columns)
+                    y_start = row * (height / num_rows)
+                    y_end = (row + 1) * (height / num_rows)
 
+                    # Calculate the center of the cell to place text
+                    x_center = (x_start + x_end) / 2
+                    y_center = (y_start + y_end) / 2
+                    
+                    # Generate a unique identifier for each cell
+                    cell_text = question_list[question_index]
+                    question_index = question_index + 1
 
-        
-        c.setFont("Helvetica", font_size)
+                    # Place text in the center of each cell
+                    c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", font_size) / 2), y_center - (font_size / 2), cell_text)
+            small_font_size = 15
+            c.setFont("Helvetica", small_font_size)
 
-        # Draw dotted grids and add text for the first page
-        for row in range(num_rows + 1):  # +1 to draw the bottommost horizontal line
-            y = row * (height / num_rows)
-            c.setStrokeColor(colors.black)
-            c.setDash(3, 3)  # Set a 3x3 dot pattern for dotted lines
-            c.line(0, y, width, y)
+            #trying to put name of flash card owner
+            for row in range(num_rows):
+                for col in range(num_columns):
+                    x_start = col * (width / num_columns)
+                    x_end = (col + 1) * (width / num_columns)
+                    y_start = row * (height / num_rows)
+                    y_end = (row + 1) * (height / num_rows)
 
-        for col in range(num_columns + 1):  # +1 to draw the rightmost vertical line
-            x = col * (width / num_columns)
-            c.line(x, 0, x, height)
+                    # Calculate the center of the cell to place text
+                    x_center = (x_start + x_end) / 2
+                    y_center = ((y_start + y_end) / 2) + 50
+                    
+                    # Generate a unique identifier for each cell
+                    cell_text = student.user.username
 
-        
-        question_index = 0
-        # Add text to each grid cell for the first page
-        for row in range(num_rows):
-            for col in range(num_columns):
-                x_start = col * (width / num_columns)
-                x_end = (col + 1) * (width / num_columns)
-                y_start = row * (height / num_rows)
-                y_end = (row + 1) * (height / num_rows)
+                    # Place text in the center of each cell
+                    c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", small_font_size) / 2), y_center - (small_font_size / 2), cell_text)
 
-                # Calculate the center of the cell to place text
-                x_center = (x_start + x_end) / 2
-                y_center = (y_start + y_end) / 2
-                
-                # Generate a unique identifier for each cell
-                cell_text = question_list[question_index]
-                question_index = question_index + 1
+            # Show the first page and start a new page for the second page
+            c.showPage()
 
-                # Place text in the center of each cell
-                c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", font_size) / 2), y_center - (font_size / 2), cell_text)
-        small_font_size = 15
-        c.setFont("Helvetica", small_font_size)
+            # Repeat for the second page
+            c.setFont("Helvetica", font_size)
 
-        #trying to put name of flash card owner
-        for row in range(num_rows):
-            for col in range(num_columns):
-                x_start = col * (width / num_columns)
-                x_end = (col + 1) * (width / num_columns)
-                y_start = row * (height / num_rows)
-                y_end = (row + 1) * (height / num_rows)
+            # Draw dotted grids for the second page
+            for row in range(num_rows + 1):  # +1 to draw the bottommost horizontal line
+                y = row * (height / num_rows)
+                c.setStrokeColor(colors.black)
+                c.setDash(3, 3)  # Set a 3x3 dot pattern for dotted lines
+                c.line(0, y, width, y)
 
-                # Calculate the center of the cell to place text
-                x_center = (x_start + x_end) / 2
-                y_center = ((y_start + y_end) / 2) + 50
-                
-                # Generate a unique identifier for each cell
-                cell_text = student.user.username
+            for col in range(num_columns + 1):  # +1 to draw the rightmost vertical line
+                x = col * (width / num_columns)
+                c.line(x, 0, x, height)
+            answer_index = 0
+            # Add text to each grid cell for the second page
+            for row in range(num_rows):
+                for col in range(num_columns):
+                    x_start = col * (width / num_columns)
+                    x_end = (col + 1) * (width / num_columns)
+                    y_start = row * (height / num_rows)
+                    y_end = (row + 1) * (height / num_rows)
 
-                # Place text in the center of each cell
-                c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", small_font_size) / 2), y_center - (small_font_size / 2), cell_text)
+                    # Calculate the center of the cell to place text
+                    x_center = (x_start + x_end) / 2
+                    y_center = (y_start + y_end) / 2
 
-        # Show the first page and start a new page for the second page
-        c.showPage()
-
-        # Repeat for the second page
-        c.setFont("Helvetica", font_size)
-
-        # Draw dotted grids for the second page
-        for row in range(num_rows + 1):  # +1 to draw the bottommost horizontal line
-            y = row * (height / num_rows)
-            c.setStrokeColor(colors.black)
-            c.setDash(3, 3)  # Set a 3x3 dot pattern for dotted lines
-            c.line(0, y, width, y)
-
-        for col in range(num_columns + 1):  # +1 to draw the rightmost vertical line
-            x = col * (width / num_columns)
-            c.line(x, 0, x, height)
-        answer_index = 0
-        # Add text to each grid cell for the second page
-        for row in range(num_rows):
-            for col in range(num_columns):
-                x_start = col * (width / num_columns)
-                x_end = (col + 1) * (width / num_columns)
-                y_start = row * (height / num_rows)
-                y_end = (row + 1) * (height / num_rows)
-
-                # Calculate the center of the cell to place text
-                x_center = (x_start + x_end) / 2
-                y_center = (y_start + y_end) / 2
-
-                # Generate a unique identifier for each cell
-                cell_text = answer_list[answer_index]
-                answer_index = answer_index + 1
-                # Place text in the center of each cell
-                c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", font_size) / 2), y_center - (font_size / 2), cell_text)
-        
-        # Show the first page and start a new page for the second page
-        c.showPage()
+                    # Generate a unique identifier for each cell
+                    cell_text = answer_list[answer_index]
+                    answer_index = answer_index + 1
+                    # Place text in the center of each cell
+                    c.drawString(x_center - (c.stringWidth(cell_text, "Helvetica", font_size) / 2), y_center - (font_size / 2), cell_text)
+            
+            # Show the first page and start a new page for the second page
+            c.showPage()
 
     # Save the PDF
     c.save()
@@ -982,7 +992,7 @@ def class_stats(request):
     # Display the pivot table
     plt.figure(figsize=(10, 8))
     sns.heatmap(pivot_table, annot=True, fmt=".2f", cmap="RdYlGn", cbar_kws={'label': 'Percentage Correct'})
-    plt.title('Percentage Correct Heatmap for x vs y')
+    plt.title('Percentage correct heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -998,8 +1008,9 @@ def class_stats(request):
 
     pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
     plt.figure(figsize=(10, 8))
-    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r", cbar_kws={'label': 'Average time'})
-    plt.title('Average time Heatmap for x vs y')
+    norm = plt.Normalize(vmin=0, vmax=6010)
+    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r",norm=norm, cbar_kws={'label': 'Average time'})
+    plt.title('Average time of correct answers heatmap')
     #invert y axis
     ax = plt.gca()
     ax.invert_yaxis()
@@ -1007,14 +1018,126 @@ def class_stats(request):
     plt.savefig(img_buffer2, format='png')
     img_buffer2.seek(0)
     img_str2 = base64.b64encode(img_buffer2.read()).decode('utf-8')
-    context = {'heatmap_image': img_str,'heatmap_image2': img_str2}
+    context = {'heatmap_image': img_str,'heatmap_image2': img_str2,'whole_class':'whole_class'}
     return render(request, 'student_stats.html',context)
 
+def student_view_stats_all(request):
+    query = Attempt.objects.filter(user_asked=request.user.id)
+    if not query:
+        return render(request, 'error.html',{'message':'Student not used app','error':'User not used app yet'})
+    df = pd.DataFrame.from_records(query.values())
+    x_list = [obj.x for obj in query]
+    df['x'] = x_list
+    y_list = [obj.y for obj in query]
+    df['y'] = y_list
+    df_cleaned = df.dropna(subset=['correct'])
+    percentage_correct = df_cleaned.groupby(['x', 'y'])['correct'].mean() * 100
+    percentage_correct = percentage_correct.reset_index()
+
+    # Create a pivot table
+    pivot_table = pd.pivot_table(percentage_correct, values='correct', index='y', columns='x')
+
+    # Display the pivot table
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(pivot_table, annot=True, fmt=".2f", cmap="RdYlGn", cbar_kws={'label': 'Percentage Correct'})
+    plt.title('Percentage correct heatmap')
+    #invert y axis
+    ax = plt.gca()
+    ax.invert_yaxis()
+    # Save the heatmap to a temporary file or buffer
+    img_buffer = BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_str = base64.b64encode(img_buffer.read()).decode('utf-8')
+
+    df_time = df.dropna(subset=['time_taken'])
+    average_time = df_time.groupby(['x', 'y'])['time_taken'].mean()
+    average_time = average_time.reset_index()
+
+    pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
+    plt.figure(figsize=(10, 8))
+    norm = plt.Normalize(vmin=0, vmax=6010)
+    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r",norm=norm, cbar_kws={'label': 'Average time'})
+    plt.title('Average time of correct answers heatmap')
+    #invert y axis
+    ax = plt.gca()
+    ax.invert_yaxis()
+    img_buffer2 = BytesIO()
+    plt.savefig(img_buffer2, format='png')
+    img_buffer2.seek(0)
+    img_str2 = base64.b64encode(img_buffer2.read()).decode('utf-8')
+
+    
+    context = {'heatmap_image': img_str,'heatmap_image2': img_str2, 'your_stats':'Your stats' ,'no_flashcards':'no_flashcards'}
+    return render(request, 'student_stats.html',context)
+
+def student_view_stats_set(request):
+    list_of_tables = []
+    tests = Test.objects.filter(user_tested=request.user.id).filter(set=True)
+    print('tests')
+    print(tests)
+    for test in tests:
+        list_of_tables.append(test.table_tested)
+    print(list_of_tables)
+
+    #get list of set questions
+    questions = Question.objects.filter(x__in=list_of_tables)
+    print(questions)
+
+    query = Attempt.objects.filter(user_asked=request.user.id).filter(question_asked__in=questions)
+    if not query:
+        return render(request, 'error.html',{'message':'Student not used app','error':'User not used app to answer set questions yet.'})
+    df = pd.DataFrame.from_records(query.values())
+    x_list = [obj.x for obj in query]
+    df['x'] = x_list
+    y_list = [obj.y for obj in query]
+    df['y'] = y_list
+    df_cleaned = df.dropna(subset=['correct'])
+    percentage_correct = df_cleaned.groupby(['x', 'y'])['correct'].mean() * 100
+    percentage_correct = percentage_correct.reset_index()
+
+    # Create a pivot table
+    pivot_table = pd.pivot_table(percentage_correct, values='correct', index='y', columns='x')
+
+    # Display the pivot table
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(pivot_table, annot=True, fmt=".2f", cmap="RdYlGn", cbar_kws={'label': 'Percentage Correct'})
+    plt.title('Percentage correct heatmap')
+    #invert y axis
+    ax = plt.gca()
+    ax.invert_yaxis()
+    # Save the heatmap to a temporary file or buffer
+    img_buffer = BytesIO()
+    plt.savefig(img_buffer, format='png')
+    img_buffer.seek(0)
+    img_str = base64.b64encode(img_buffer.read()).decode('utf-8')
+
+    df_time = df.dropna(subset=['time_taken'])
+    average_time = df_time.groupby(['x', 'y'])['time_taken'].mean()
+    average_time = average_time.reset_index()
+
+    pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
+    plt.figure(figsize=(10, 8))
+    norm = plt.Normalize(vmin=0, vmax=6010)
+    sns.heatmap(pivot_table_average_time, annot=True, fmt=".2f", cmap="RdYlGn_r",norm=norm, cbar_kws={'label': 'Average time'})
+
+    
+
+    plt.title('Average time of correct answers heatmap')
+    #invert y axis
+    ax = plt.gca()
+    ax.invert_yaxis()
+    img_buffer2 = BytesIO()
+    plt.savefig(img_buffer2, format='png')
+    img_buffer2.seek(0)
+    img_str2 = base64.b64encode(img_buffer2.read()).decode('utf-8')
+    context = {'heatmap_image': img_str,'heatmap_image2': img_str2,'your_stats':'Your stats' ,'no_flashcards':'no_flashcards'}
+    return render(request, 'student_stats.html',context)
+
+
 """next steps:
-
-view that shows stats for entire class
-function that works out ten worst times table for each student out of the ones they've been set and then returns a pdf of all these flashcards
-make time show in seconds, not milliseconds
-
-
+fix error where a student has less than 10 attempts - done
+allow students to see their own heatmaps and flashcards - done for heatmaps
+prevent teachers from playing the game - done
+add a home link - done
 """

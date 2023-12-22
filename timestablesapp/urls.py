@@ -18,6 +18,7 @@ urlpatterns = [
     path('stats_set/<str:student>',views.student_stats_set,name='student_stats_set'),
     path('stats_set/<str:student>/flash',views.flash_set,name='flash_set'),
     path('class_flash',views.class_flash,name='class_flash'),
-    path('class_stats',views.class_stats,name='class_stats')
-
+    path('class_stats',views.class_stats,name='class_stats'),
+    path('student_view_stats_all',views.student_view_stats_all,name='student_view_stats_all'),
+    path('student_view_stats_set',views.student_view_stats_set,name='student_view_stats_set')
 ]
