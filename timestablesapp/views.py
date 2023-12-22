@@ -83,7 +83,6 @@ def create_user(request):
     else:
         return redirect(myview)
 
-@csrf_exempt    
 def user_login(request):
     if(request.user.is_authenticated):
         return redirect(myview)
