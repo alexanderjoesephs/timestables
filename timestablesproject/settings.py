@@ -133,4 +133,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-CSRF_TRUSTED_ORIGINS = ['https://web-production-64da.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://web-production-64da.up.railway.app']
