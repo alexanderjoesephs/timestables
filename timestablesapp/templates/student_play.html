@@ -4,12 +4,14 @@
 <script id="question-data" type="application/json">
     {{ question_list|safe }}
 </script>
-<h2>Times tables app</h2>
-<p style="display:none" id="username">{{request.user}}</p>
+<div class="gamecontainer">
+    <h2>Times tables app</h2>
+    <p style="display:none" id="username">{{request.user}}</p>
     <p id="question"></p>
     <input type="text" id="answer" autocomplete="off">
     <p id="score">Score: 0</p>
-    <p>test</p>
+</div>
+    
 <script>
     let scriptTag = document.getElementById('question-data');
     let questionArray = JSON.parse(scriptTag.textContent || scriptTag.innerText);

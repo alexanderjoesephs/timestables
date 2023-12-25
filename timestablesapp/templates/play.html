@@ -2,10 +2,11 @@
 
 {% block content %}
     <p style="display:none" id="username">{{request.user}}</p>
+    <div class="gamecontainer">
     <p id="question"></p>
     <input type="text" id="answer" autocomplete="off">
     <p id="score">Score: 0</p>
-    <p>test</p>
+    </div>
     {% for times_table in times_table_list %}
         <p style="display: none;" class="timesTables">{{times_table}}</p>
     {% endfor %}
