@@ -131,7 +131,7 @@ input[type="text"]{
     background-color: #f5f5f5;
   }
 
-
+  
 
   </style>
   </head>
@@ -145,7 +145,7 @@ input[type="text"]{
         <a onclick="submitForm()">Log out</a>
         {% endif %}
         {% if request.user_status == 'student' %}
-          <a href="#home">Practise times tables</a>
+          <a href="{% url 'student_ready'%}">Practise times tables</a>
           <a href="#home">View stats</a>
         {% elif request.user_status == 'teacher' %}
           <a href="{% url 'teacher_stats' %}">View Stats</a>

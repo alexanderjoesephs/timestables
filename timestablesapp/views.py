@@ -25,18 +25,7 @@ from PIL import Image
 
 
 
-def checkstatus(request):
-    if(request.user.is_authenticated):
-        if Teacher.objects.filter(user=request.user):
-            return 'teacher'
-        elif Student.objects.filter(user=request.user):
-            return 'student'
-        elif Admin.objects.filter(user=request.user):
-            return 'admin'
-        else:
-            return 'unassigned'
-    else: 
-        return 'logged_out'
+
 
 
 # Create your views here.
@@ -54,7 +43,7 @@ def home(request):
 def create_user(request):
     if Admin.objects.filter(user=request.user.id):
         form = CustomisedUserCreationForm()
-        status = checkstatus(request)
+
         if(request.method=="GET"):
             return render(request, "create_user.html",{'form':form})
         if(request.method=="POST"):
@@ -126,13 +115,44 @@ def play(request):
 def play_all(request):
     if request.user.is_authenticated:
         #get all times tables this user should be tested on
-        times_table_list = [2,3,4,5,6,7,8,9,10,11,12]
-        return render(request, 'play_all.html',{'times_table_list':times_table_list})
+        times_tables = Test.objects.filter(user_tested=request.user,set=True)
+        times_table_list = []
+        for number in times_tables:
+            times_table_list.append(number.table_tested)
+        return render(request, 'play.html',{'times_table_list':times_table_list})
     else:
         return redirect(home)
 
+def student_ready(request):
+    if not request.user_status=='student':
+        return render(request,'error.html',{'error':'User not logged in as student'})
+    else:
+        times_tables = Test.objects.filter(user_tested=request.user,set=True)
+        test_list = []
+        for number in times_tables:
+            test_list.append(number.table_tested)
+    return render(request, 'student_ready.html',{'test_list':test_list})
 
 
+def student_play(request):
+    if not request.user_status=='student':
+        return render(request,'error.html',{'error':'User not logged in as student'})
+    else:
+        #get all times tables this user should be tested on
+        times_tables = Test.objects.filter(user_tested=request.user,set=True)
+        test_list = []
+        for number in times_tables:
+            test_list.append(number.table_tested)
+        question_list = []
+        print(test_list)
+        for test in test_list:
+            for i in range(2,13):
+                array = []
+                array.append(test)
+                array.append(i)
+                question_list.append(array)
+        print(question_list)
+        return render(request, 'student_play.html',{'question_list':question_list})
 
 @csrf_exempt  # Only for example. Use CSRF protection in production.
 def create_attempt(request):

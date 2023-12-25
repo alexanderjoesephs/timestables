@@ -14,6 +14,8 @@ urlpatterns = [
     path('play_all',views.play_all,name='play_all'),
     path('create_attempt', views.create_attempt, name='create_attempt'),
     path('student',views.student,name='student'),
+    path('student_play',views.student_play,name='student_play'),
+    path('student_ready',views.student_ready,name='student_ready'),
     path('admin',views.admin,name='admin')
     ]
 """
