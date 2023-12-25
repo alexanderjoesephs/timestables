@@ -162,7 +162,7 @@ def teacher_stats(request):
         if request.user_status=='teacher':
             teacher = Teacher.objects.get(user=request.user.id)
             students = Student.objects.filter(classes=teacher)
-            return render(request, 'teacher_Stats.html',{'students':students})
+            return render(request, 'teacher_stats.html',{'students':students})
         else:
             return render(request, 'error.html', {'error':'Account holder not teacher'})
     if request.method=='POST':
