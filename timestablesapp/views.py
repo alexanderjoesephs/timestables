@@ -225,7 +225,7 @@ def teacher_stats(request):
         y_list = [obj.y for obj in attempts]
         df['y'] = y_list
         df_cleaned = df.dropna(subset=['correct'])
-        percentage_correct = df_cleaned.groupby(['x', 'y'])['correct'].mean() 
+        percentage_correct = df_cleaned.groupby(['x', 'y'])['correct'].mean()
         percentage_correct = percentage_correct.reset_index()
 
         # Create a pivot table
@@ -234,8 +234,10 @@ def teacher_stats(request):
         # Display the pivot table
         #plt.figure(figsize=(10, 8))
         plt.figure(figsize=(7, 7))
-        norm = plt.Normalize(vmin=0, vmax=100)
-        sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn", cbar=False)
+        norm = plt.Normalize(vmin=0, vmax=1)
+        sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn",norm=norm, cbar=False)
+        
+        
         plt.title('Percentage correct heatmap')
         plt.xlabel('')
         plt.ylabel('')
