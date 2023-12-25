@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     background-color: slategray;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     font-size: 20px; /* Change this value to adjust the text size */
@@ -20,7 +20,6 @@
   .content {
     margin:20px;
     padding:20px;
-    max-width: 1200px;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
@@ -54,33 +53,134 @@ input[type="text"]{
     padding: 10px; /* Add padding to the button for better visual appearance */
     font-size: 20px; /* Set the font size for the text on the button */
   }
+  .formdiv{
+    margin:5px;
+    padding:5px;
+    
+  }
+
+  nav {
+    background-color: #333;
+    overflow: hidden;
+  }
+
+  nav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .nav-right {
+    float: right;
+  }
+
+  @media screen and (max-width: 1000px) {
+    nav a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .nav-right {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+  }
+
+  
+  
+
+  .graphContainer{
+    display: flex; 
+    justify-content: space-evenly;
+  }
+  
+  @media (max-width: 1220px) {
+    .graphContainer {
+        flex-direction: column; /* Change to column layout */
+        align-items: center; /* Center items vertically in columns */
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #f5f5f5;
+  }
 
 
-  
-  
-  
-        </style>
-    </head>
+
+  </style>
+  </head>
     
     <body>
-        
-        
+      <nav>
+        {% if request.user_status == 'logged_out' %}
+        <a href="{% url 'user_login' %}">Log in</a>
+        {% else %}
+        <a>Logged in as {{request.user}}</a>
+        <a onclick="submitForm()">Log out</a>
+        {% endif %}
+        {% if request.user_status == 'student' %}
+          <a href="#home">Practise times tables</a>
+          <a href="#home">View stats</a>
+        {% elif request.user_status == 'teacher' %}
+          <a href="{% url 'teacher_stats' %}">View Stats</a>
+          <a href="{% url 'teacher_set_work' %}">Set Work</a>
+          <a href="{% url 'teacher_print_flashcards' %}">Print Flashcards</a>
+        {% elif request.user_status == 'admin' %}
+          <a href="#home">View stats</a>
+          <a href="#home">Create users</a>
+          <a href="#home">Assign students</a>
+        {% endif %}
+        <div class="nav-right">
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        </div>
+      </nav>
+      
+      <div style="display:none;">
+      <form id="logoutForm" method="post" action="{% url 'user_logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+      </div>
         <div class="content">
-        <h1>Times tables app</h1>
-        <a href="/timestablesapp">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="25" height="25" viewBox="0 0 256 256" xml:space="preserve">
-
-          <defs>
-          </defs>
-          <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-            <path d="M 75.847 85.108 H 14.153 c -1.657 0 -3 -1.343 -3 -3 V 41.183 c 0 -1.657 1.343 -3 3 -3 s 3 1.343 3 3 v 37.925 h 55.693 V 41.183 c 0 -1.657 1.343 -3 3 -3 s 3 1.343 3 3 v 40.925 C 78.847 83.766 77.504 85.108 75.847 85.108 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-            <path d="M 86.497 39.099 c -0.58 0 -1.167 -0.168 -1.684 -0.52 L 45 11.52 L 5.187 38.58 c -1.372 0.934 -3.237 0.575 -4.167 -0.794 c -0.932 -1.371 -0.576 -3.236 0.794 -4.167 l 41.5 -28.207 c 1.019 -0.692 2.355 -0.692 3.373 0 l 41.5 28.207 c 1.37 0.931 1.726 2.797 0.795 4.167 C 88.4 38.639 87.457 39.099 86.497 39.099 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-            <path d="M 75.847 19.197 c -1.657 0 -3 -1.343 -3 -3 v -4.812 h -7.626 c -1.657 0 -3 -1.343 -3 -3 s 1.343 -3 3 -3 h 10.626 c 1.657 0 3 1.343 3 3 v 7.812 C 78.847 17.854 77.504 19.197 75.847 19.197 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-          </g>
-          </svg>
-        </a>
+        
+        
         {% block content %}{% endblock %}
         </div>
+        <script>
+        function submitForm() {
+          // Get the form element by its ID
+          var form = document.getElementById("logoutForm");
+          // Submit the form
+          form.submit();
+        }
+        </script>
         
     </body>
 </html>
