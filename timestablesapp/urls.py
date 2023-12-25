@@ -16,6 +16,7 @@ urlpatterns = [
     path('student',views.student,name='student'),
     path('student_play',views.student_play,name='student_play'),
     path('student_ready',views.student_ready,name='student_ready'),
+    path('student_stats',views.student_stats,name='student_stats'),
     path('admin',views.admin,name='admin')
     ]
 """

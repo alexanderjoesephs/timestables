@@ -378,8 +378,21 @@ def teacher_stats(request):
             print(effort_df)
             grouped_by_user = effort_df.groupby('user_asked_id').size().reset_index(name='count')
             grouped_by_user['name'] = grouped_by_user['user_asked_id'].apply(lambda x: User.objects.get(id=x).username)
-            print(grouped_by_user)
-            context = {'students':students,'heatmap_image': img_str,'heatmap_image2': img_str2,'student':student,'info_string':info_string}
+            grouped_by_user = grouped_by_user.sort_values(by='count', ascending=False)
+            plt.figure(figsize=(14, 6))
+            # Create bar plot
+            ax = sns.barplot(x='count', y='name', data=grouped_by_user, color=(255/255, 255/255, 120/255))
+            ax.set_yticklabels([f"{name} ({count} attempts)" for name, count in zip(grouped_by_user['name'], grouped_by_user['count'])])
+            # Modify x-axis labels to include count
+            
+            plt.title('Questions attempted for each student')
+            plt.xlabel('Attempts')
+            plt.ylabel('Students')
+            img_buffer5 = BytesIO()
+            plt.savefig(img_buffer5, format='png')
+            img_buffer5.seek(0)
+            img_str5 = base64.b64encode(img_buffer5.read()).decode('utf-8')
+            context = {'students':students,'heatmap_image': img_str,'heatmap_image2': img_str2,'student':student,'info_string':info_string,'heatmap_image5': img_str5}
         # Pass the base64-encoded image string to the template
         return render(request, 'teacher_stats.html',context)
         
@@ -871,6 +884,182 @@ def student(request):
             return render(request, 'student.html')
         else:
             return render(request, 'error.html', {'error':'Account holder not teacher'})
+
+
+def student_stats(request):
+    if not request.user_status=='student':
+        return render(request,'error.html',{'error':'Not logged on as student'})
+    else:
+        if request.method == 'GET':
+            return render(request,'student_stats.html')
+        if request.method == "POST":
+            date_to = request.POST.get('date_to')
+            date_from = request.POST.get('date_from')
+            date_to_object = datetime.strptime(date_to, '%Y-%m-%d').date()
+            date_from_object = datetime.strptime(date_from, '%Y-%m-%d').date()
+            #formatting dates for f-strings
+            uk_date_to_str = date_to_object.strftime('%d-%m-%Y')
+            uk_date_from_str = date_from_object.strftime('%d-%m-%Y')
+            uk_date_to_str = uk_date_to_str.replace('-', '/')
+            uk_date_from_str = uk_date_from_str.replace('-', '/')
+            info_string = f"Your stats from {uk_date_from_str} to {uk_date_to_str}"
+            attempts = Attempt.objects.filter(user_asked=request.user).filter(date_created__date__range=[date_from_object, date_to_object])
+            if not attempts:
+                return render(request, 'error.html',{'error':'Student has not used app enough yet'})
+            df = pd.DataFrame.from_records(attempts.values())
+            print('df')
+            print(df)
+            x_list = [obj.x for obj in attempts]
+            df['x'] = x_list
+            y_list = [obj.y for obj in attempts]
+            df['y'] = y_list
+            df_cleaned = df.dropna(subset=['correct'])
+            percentage_correct = df_cleaned.groupby(['x', 'y'])['correct'].mean() 
+            percentage_correct = percentage_correct.reset_index()
+
+            # Create a pivot table
+            pivot_table = pd.pivot_table(percentage_correct, values='correct', index='y', columns='x')
+
+            # Display the pivot table
+            #plt.figure(figsize=(10, 8))
+            plt.figure(figsize=(7, 7))
+            norm = plt.Normalize(vmin=0, vmax=100)
+            sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn", cbar=False)
+            plt.title('Percentage correct heatmap')
+            plt.xlabel('')
+            plt.ylabel('')
+            #invert y axis
+            ax = plt.gca()
+            ax.invert_yaxis()
+            # Save the heatmap to a temporary file or buffer
+            img_buffer = BytesIO()
+            plt.savefig(img_buffer, format='png')
+            img_buffer.seek(0)
+            with Image.open(img_buffer) as img:
+                img = img.convert('RGB')  # Convert image to RGB mode if needed
+
+                # Get image dimensions
+                width, height = img.size
+
+                # Initialize crop boundaries
+                left, top, right, bottom = width, height, 0, 0
+
+                # Scan image to find boundaries
+                for x in range(width):
+                    for y in range(height):
+                        if img.getpixel((x, y)) != (255, 255, 255):  # Check for non-white pixels (white is (255, 255, 255))
+                            left = min(left, x)
+                            top = min(top, y)
+                            right = max(right, x)
+                            bottom = max(bottom, y)
+
+                # Crop the image using identified boundaries
+                cropped_img = img.crop((left - 10, top - 10, right + 10, bottom + 35))
+
+                # Save the cropped image back to the buffer
+                cropped_img_buffer = BytesIO()
+                cropped_img.save(cropped_img_buffer, format='png')
+                cropped_img_buffer.seek(0)
+                img_str = base64.b64encode(cropped_img_buffer.read()).decode('utf-8')
+
+            # Close the buffers
+            img_buffer.close()
+            cropped_img_buffer.close()
+
+            
+
+            df_time = df.dropna(subset=['time_taken'])
+            average_time = df_time.groupby(['x', 'y'])['time_taken'].mean()/1000
+            average_time = average_time.reset_index()
+
+            pivot_table_average_time = pd.pivot_table(average_time, values='time_taken', index='y', columns='x')
+            #plt.figure(figsize=(10, 8))
+            plt.figure(figsize=(7, 7))
+            norm = plt.Normalize(vmin=0, vmax=6.2)
+            sns.heatmap(pivot_table_average_time, annot=True, fmt=".1f", cmap="RdYlGn_r",norm=norm, cbar=False)
+            plt.title('Average time of correct answers heatmap')
+            plt.xlabel('')
+            plt.ylabel('')
+            #invert y axis
+            ax = plt.gca()
+            ax.invert_yaxis()
+            img_buffer2 = BytesIO()
+            plt.savefig(img_buffer2, format='png')
+            img_buffer2.seek(0)
+
+
+            with Image.open(img_buffer2) as img:
+                img = img.convert('RGB')  # Convert image to RGB mode if needed
+
+                # Get image dimensions
+                width, height = img.size
+
+                # Initialize crop boundaries
+                left, top, right, bottom = width, height, 0, 0
+
+                # Scan image to find boundaries
+                for x in range(width):
+                    for y in range(height):
+                        if img.getpixel((x, y)) != (255, 255, 255):  # Check for non-white pixels (white is (255, 255, 255))
+                            left = min(left, x)
+                            top = min(top, y)
+                            right = max(right, x)
+                            bottom = max(bottom, y)
+
+                # Crop the image using identified boundaries
+                cropped_img = img.crop((left - 10, top - 10, right + 10, bottom + 35))
+
+                # Save the cropped image back to the buffer
+                cropped_img_buffer = BytesIO()
+                cropped_img.save(cropped_img_buffer, format='png')
+                cropped_img_buffer.seek(0)
+                img_str2 = base64.b64encode(cropped_img_buffer.read()).decode('utf-8')
+
+            # Close the buffers
+            img_buffer2.close()
+            cropped_img_buffer.close()
+
+            #Get the effort charts
+           
+            attempts = Attempt.objects.filter(user_asked=request.user).filter(date_created__date__range=[date_from_object, date_to_object])
+            effort_df = pd.DataFrame.from_records(attempts.values())
+            total_attempts = len(effort_df)
+            print(effort_df)
+            effort_df['date_created'] = pd.to_datetime(df['date_created'])
+
+            # Extract the day from the 'date_created' column
+            effort_df['day'] = effort_df['date_created'].dt.date
+
+            # Group by 'day' and count the number of rows for each day
+            
+            grouped_by_day = effort_df.groupby('day').size().reset_index(name='count')
+            
+            print(grouped_by_day)
+            plt.figure(figsize=(6, 6))
+            sns.barplot(x='day', y='count', data=grouped_by_day,color=(255/255, 255/255, 120/255))
+            plt.title(f'{total_attempts} questions grouped by day.')
+            plt.xlabel('Day')
+            plt.ylabel('Attempts')
+            
+            
+            img_buffer3 = BytesIO()
+            plt.savefig(img_buffer3, format='png')
+            img_buffer3.seek(0)
+            img_str3 = base64.b64encode(img_buffer3.read()).decode('utf-8')
+
+            grouped_by_correct = effort_df.groupby('correct').size().reset_index(name='count').replace({True: 'Correct', False: 'Incorrect'})
+            print(grouped_by_correct)
+            plt.figure(figsize=(6, 6))
+            colours = [(255/255, 185/255, 147/255), (177/255, 222/255, 113/255)]
+            sns.barplot(x='correct', y='count', hue='correct', data=grouped_by_correct, palette=colours, legend=False)
+            plt.title(f'{total_attempts} questions grouped by correctness.')
+            plt.xlabel('Correct')
+            plt.ylabel('Attempts')
+            img_buffer4 = BytesIO()
+            plt.savefig(img_buffer4, format='png')
+            img_buffer4.seek(0)
+            img_str4 = base64.b64encode(img_buffer4.read()).decode('utf-8')
+            return render(request,'student_stats.html',{'info_string':info_string,'heatmap_image': img_str,'heatmap_image2': img_str2,'heatmap_image3': img_str3,'heatmap_image4': img_str4})
 
 def admin(request):
     if request.method=='GET':

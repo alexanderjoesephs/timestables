@@ -8,6 +8,7 @@
     {% endif %}
     <form method="post" action="{% url 'teacher_set_work' %}">
     {% csrf_token %}
+    
     {% for table in array_of_tables %}
     
     {% for t in table%}
@@ -18,7 +19,7 @@
         
     
         {%if t.set%}
-            <div style="display:inline" >
+            <div style="display:inline" class="checkboxholder" >
             <div style="display:inline-block" >
             <label>{{t.table_tested}}</label>
             <br>
@@ -27,7 +28,7 @@
             </div>
         
         {%else%}
-            <div style="display:inline" >
+            <div style="display:inline" class="checkboxholder" >
             <div style="display:inline-block" >
             <label>{{t.table_tested}}</label>
             <br>
@@ -52,77 +53,77 @@
         <p>
             Caution: Checking this box will update each individual's set work. Use refresh to undo any unwanted changes before submitting. 
         </p>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder" >
         <div style="display:inline-block" >
             <label>2</label>
             <br>
             <input id="2"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder" >
         <div style="display:inline-block" >
             <label>3</label>
             <br>
             <input id="3"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline"  class="checkboxholder">
         <div style="display:inline-block" >
             <label>4</label>
             <br>
             <input id="4"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>5</label>
             <br>
             <input id="5"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>6</label>
             <br>
             <input id="6"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>7</label>
             <br>
             <input id="7"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>8</label>
             <br>
             <input id="8"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>9</label>
             <br>
             <input id="9"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>10</label>
             <br>
             <input id="10"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>11</label>
             <br>
             <input id="11"  type="checkbox"  unchecked>
         </div>
         </div>
-        <div style="display:inline" >
+        <div style="display:inline" class="checkboxholder">
         <div style="display:inline-block" >
             <label>12</label>
             <br>

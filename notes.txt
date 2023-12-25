@@ -1,18 +1,16 @@
 Do these views - all are located in navbar
 Teacher
-View stats - use pillow to crop heatmaps
+View stats - render a graph showing effort for whole class
 Set work - make checkboxes bigger and more interesting looking
-Download flashcards - render dictionary on the screen and use it to create the flashcards
+Download flashcards
 
 Student
-Practise - make it so questions asked once and only again once all have been exhausted
-View stats
+Practise
+View stats - to do
 
 Admin
-Create users
-View stats
-Assign users to teachers
+Create users -  to do
+View stats - to do
+Assign users to teachers - to do
 
-General
-Make all navbar elements go to left when navbar collapses
 
