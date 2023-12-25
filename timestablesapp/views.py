@@ -188,6 +188,14 @@ def teacher_stats(request):
     if request.method=='POST':
         teacher = Teacher.objects.get(user=request.user.id)
         students = Student.objects.filter(classes=teacher)
+        users_ids = []
+        for student in students:
+            users_ids.append(student.user.id)
+        print('users_of_students')
+        print(users_ids)
+        print(User.objects.filter(id__in=users_ids))
+
+
         data_type = request.POST.get('data type')
         student = request.POST.get('student')
         date_to = request.POST.get('date_to')
@@ -200,7 +208,7 @@ def teacher_stats(request):
         uk_date_to_str = uk_date_to_str.replace('-', '/')
         uk_date_from_str = uk_date_from_str.replace('-', '/')
         if data_type=='whole class':
-            attempts = Attempt.objects.filter(date_created__date__range=[date_from_object, date_to_object])
+            attempts = Attempt.objects.filter(date_created__date__range=[date_from_object, date_to_object]).filter(user_asked__in=users_ids)
             info_string = f"Stats for whole class from {uk_date_from_str} to {uk_date_to_str}"
         if data_type=='individual student':
             info_string = f"Stats for {student} from {uk_date_from_str} to {uk_date_to_str}"
@@ -210,6 +218,8 @@ def teacher_stats(request):
         if not attempts:
             return render(request, 'error.html',{'error':'Student has not used app enough yet'})
         df = pd.DataFrame.from_records(attempts.values())
+        print('df')
+        print(df)
         x_list = [obj.x for obj in attempts]
         df['x'] = x_list
         y_list = [obj.y for obj in attempts]
@@ -320,13 +330,59 @@ def teacher_stats(request):
         img_buffer2.close()
         cropped_img_buffer.close()
 
-        
+        #get the effort charts here
+        if data_type=='individual student':
+            user_asked = User.objects.get(username = student)
+            attempts = Attempt.objects.filter(user_asked=user_asked).filter(date_created__date__range=[date_from_object, date_to_object])
+            effort_df = pd.DataFrame.from_records(attempts.values())
+            total_attempts = len(effort_df)
+            print(effort_df)
+            effort_df['date_created'] = pd.to_datetime(df['date_created'])
 
-        
+            # Extract the day from the 'date_created' column
+            effort_df['day'] = effort_df['date_created'].dt.date
+
+            # Group by 'day' and count the number of rows for each day
+            
+            grouped_by_day = effort_df.groupby('day').size().reset_index(name='count')
+            
+            print(grouped_by_day)
+            plt.figure(figsize=(6, 6))
+            sns.barplot(x='day', y='count', data=grouped_by_day,color=(255/255, 255/255, 120/255))
+            plt.title(f'{total_attempts} questions grouped by day.')
+            plt.xlabel('Day')
+            plt.ylabel('Attempts')
+            
+            
+            img_buffer3 = BytesIO()
+            plt.savefig(img_buffer3, format='png')
+            img_buffer3.seek(0)
+            img_str3 = base64.b64encode(img_buffer3.read()).decode('utf-8')
+
+            grouped_by_correct = effort_df.groupby('correct').size().reset_index(name='count').replace({True: 'Correct', False: 'Incorrect'})
+            print(grouped_by_correct)
+            plt.figure(figsize=(6, 6))
+            colours = [(255/255, 185/255, 147/255), (177/255, 222/255, 113/255)]
+            sns.barplot(x='correct', y='count', hue='correct', data=grouped_by_correct, palette=colours, legend=False)
+            plt.title(f'{total_attempts} questions grouped by correctness.')
+            plt.xlabel('Correct')
+            plt.ylabel('Attempts')
+            img_buffer4 = BytesIO()
+            plt.savefig(img_buffer4, format='png')
+            img_buffer4.seek(0)
+            img_str4 = base64.b64encode(img_buffer4.read()).decode('utf-8')
+            context = {'students':students,'heatmap_image': img_str,'heatmap_image2': img_str2,'student':student,'info_string':info_string,'heatmap_image3':img_str3,'heatmap_image4':img_str4}
+        if data_type=='whole class':
+            attempts = Attempt.objects.filter(date_created__date__range=[date_from_object, date_to_object]).filter(user_asked__in=users_ids)
+            effort_df = pd.DataFrame.from_records(attempts.values())
+            print(effort_df)
+            grouped_by_user = effort_df.groupby('user_asked_id').size().reset_index(name='count')
+            grouped_by_user['name'] = grouped_by_user['user_asked_id'].apply(lambda x: User.objects.get(id=x).username)
+            print(grouped_by_user)
+            context = {'students':students,'heatmap_image': img_str,'heatmap_image2': img_str2,'student':student,'info_string':info_string}
         # Pass the base64-encoded image string to the template
-        context = {'students':students,'heatmap_image': img_str,'heatmap_image2': img_str2,'student':student,'info_string':info_string}
         return render(request, 'teacher_stats.html',context)
-
+        
 
 
 def teacher_set_work(request):
@@ -336,7 +392,7 @@ def teacher_set_work(request):
             students = Student.objects.filter(classes=this_teacher)
             array_of_tables = []
             for student in students:
-                user = User.objects.get(student=student)
+                user = User.objects.get(id=student.user.id)
                 tables = Test.objects.filter(user_tested=user)
                 array_of_tables.append(tables)
 
@@ -359,7 +415,7 @@ def teacher_set_work(request):
                 test.save()
         array_of_tables = []
         for student in students:
-                user = User.objects.get(student=student)
+                user = User.objects.get(id=student.user.id)
                 tables = Test.objects.filter(user_tested=user)
                 array_of_tables.append(tables)
         return render(request,'teacher_set_work.html',{'students':students,'array_of_tables':array_of_tables,'update_message':'Work set has been updated.'})

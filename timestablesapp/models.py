@@ -16,7 +16,7 @@ class Teacher(models.Model):
         return(self.user.username)
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='find')
     # Add any additional fields for the student model
     classes = models.ForeignKey(Teacher,on_delete=models.CASCADE,null=True)
     def __str__(self):

@@ -43,6 +43,12 @@
         <img src="data:image/png;base64,{{ heatmap_image }}" alt="Heatmap">
         <img src="data:image/png;base64,{{ heatmap_image2 }}" alt="Heatmap">
     </div>
+    {% if heatmap_image3 and heatmap_image4 %}
+    <div>
+        <img src="data:image/png;base64,{{ heatmap_image3 }}" alt="Heatmap">
+        <img src="data:image/png;base64,{{ heatmap_image4 }}" alt="Heatmap">
+    </div>
+    {% endif %}
     {% endif %}
     <script>
         let dropdown = document.getElementById("selectStudent");
