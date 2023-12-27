@@ -1,7 +1,9 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    
+    {% if teacher_form %}
+        <p>Assinged {% for student_name in student_form %}{{student_name}}, {% if forloop.last %}{{student_name}} {% endif %}{% endfor %}to {{teacher_form}}.</p>
+    {% endif %}
     <form action="{% url 'add_students' %}" method="post">
     {% csrf_token %}
 

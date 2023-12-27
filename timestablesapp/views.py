@@ -925,8 +925,8 @@ def student_stats(request):
             # Display the pivot table
             #plt.figure(figsize=(10, 8))
             plt.figure(figsize=(7, 7))
-            norm = plt.Normalize(vmin=0, vmax=100)
-            sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn", cbar=False)
+            norm = plt.Normalize(vmin=0, vmax=1)
+            sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn", norm=norm, cbar=False)
             plt.title('Percentage correct heatmap')
             plt.xlabel('')
             plt.ylabel('')
@@ -1063,12 +1063,78 @@ def student_stats(request):
             img_str4 = base64.b64encode(img_buffer4.read()).decode('utf-8')
             return render(request,'student_stats.html',{'info_string':info_string,'heatmap_image': img_str,'heatmap_image2': img_str2,'heatmap_image3': img_str3,'heatmap_image4': img_str4})
 
-def admin(request):
+def admin_create_user(request):
     if request.method=='GET':
         if Admin.objects.filter(user=request.user.id):
-            return render(request, 'admin.html')
+            form = CustomisedUserCreationForm()
+            return render(request,'admin_create_user.html',{'form':form})
         else:
             return render(request, 'error.html', {'error':'Account holder not admin'})
+    if request.method=='POST':
+        
+        if not request.user_status == 'admin': 
+            return render(request, 'error.html', {'error':'Account holder not admin'})
+        else:
+            form = CustomisedUserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data['username']
+                user_to_assign_times_tables = User.objects.get(username=username)
+                admin_creating_account = Admin.objects.get(user=request.user)
+                for i in range(2,13):
+                    test = Test()
+                    test.set = True
+                    test.table_tested = i
+                    test.user_tested = user_to_assign_times_tables
+                    test.save()
+                if form.cleaned_data['account_type'] == 'teacher':
+                    t = Teacher()
+                    t.user = user_to_assign_times_tables
+                    t.admin = admin_creating_account
+                    t.save()
+                if form.cleaned_data['account_type'] == 'student':
+                    s = Student()
+                    s.user = user_to_assign_times_tables
+                    s.admin = admin_creating_account
+                    s.save()
+                return render(request, "create_user.html",{'form':form,'message':f"Successfully created user {user_to_assign_times_tables.username}"})
+
+            else:
+                
+                return render(request, "create_user.html",{'form':form,'message':"Couldn't create user"})
+            
+def admin_assign_students(request):
+    if request.method=='GET':
+        if not request.user_status=='admin':
+            return render(request, 'error.html', {'error':'Account holder not admin'})
+        if request.user_status=='admin':
+            admin = Admin.objects.get(user=request.user)
+            teachers = Teacher.objects.filter(admin=admin)
+            students = Student.objects.filter(admin=admin).filter(classes__isnull=True)
+            print(teachers)
+            print(students)
+            return render(request, 'admin_assign_students.html',{'students':students,'teachers':teachers})
+    if request.method=='POST':
+        if not request.user_status=='admin':
+            return render(request, 'error.html', {'error':'Account holder not admin'})
+        else:
+            
+            teacher_form = request.POST.get('teacher_selected')
+            student_form = request.POST.getlist('student')
+            user_teacher = User.objects.get(username=teacher_form)
+            teacher_to_assign = Teacher.objects.get(user=user_teacher) 
+            for student_name in student_form:
+                
+                user_student = User.objects.get(username=student_name)
+                student_instance = Student.objects.get(user=user_student)
+                
+                student_instance.classes = teacher_to_assign
+                student_instance.save()
+            #get list of students and teachers again
+            admin = Admin.objects.get(user=request.user)
+            teachers = Teacher.objects.filter(admin=admin)
+            students = Student.objects.filter(admin=admin).filter(classes__isnull=True)
+        return render(request, 'admin_assign_students.html',{'students':students,'teachers':teachers,'teacher_form':teacher_form,'student_form':student_form})
 
 """
 def teach(request):

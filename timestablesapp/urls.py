@@ -17,11 +17,13 @@ urlpatterns = [
     path('student_play',views.student_play,name='student_play'),
     path('student_ready',views.student_ready,name='student_ready'),
     path('student_stats',views.student_stats,name='student_stats'),
-    path('admin',views.admin,name='admin')
+    path('admin_create_user',views.admin_create_user,name='admin_create_user'),
+    path('admin_assign_students',views.admin_assign_students,name='admin_assign_students')
+    
     ]
 """
     path('teach', views.teach, name='teach'),
-    path('add_students', views.add_students, name='add_students'),
+    
     path('remove_students', views.remove_students, name='remove_students'),
     path('stats', views.stats, name='stats'),
     path('stats/<str:student>',views.student_stats,name='student_stats'),

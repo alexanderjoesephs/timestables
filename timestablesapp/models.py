@@ -10,12 +10,14 @@ class Admin(models.Model):
     
 
 class Teacher(models.Model):
+    admin = models.ForeignKey(Admin, on_delete=models.CASCADE, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # Add any additional fields for the teacher model
     def __str__(self):
         return(self.user.username)
 
 class Student(models.Model):
+    admin = models.ForeignKey(Admin, on_delete=models.CASCADE, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='find')
     # Add any additional fields for the student model
     classes = models.ForeignKey(Teacher,on_delete=models.CASCADE,null=True)
