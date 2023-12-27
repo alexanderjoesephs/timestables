@@ -94,7 +94,7 @@ def user_login(request):
 
 def logoutview(request):
     if request.method=="POST":
-        print('is it here post')
+        
         if request.user.is_authenticated:
             logout(request)
         return redirect(home)
@@ -144,14 +144,14 @@ def student_play(request):
         for number in times_tables:
             test_list.append(number.table_tested)
         question_list = []
-        print(test_list)
+        
         for test in test_list:
             for i in range(2,13):
                 array = []
                 array.append(test)
                 array.append(i)
                 question_list.append(array)
-        print(question_list)
+       
         return render(request, 'student_play.html',{'question_list':question_list})
 
 @csrf_exempt  # Only for example. Use CSRF protection in production.
@@ -1111,8 +1111,7 @@ def admin_assign_students(request):
             admin = Admin.objects.get(user=request.user)
             teachers = Teacher.objects.filter(admin=admin)
             students = Student.objects.filter(admin=admin).filter(classes__isnull=True)
-            print(teachers)
-            print(students)
+            
             return render(request, 'admin_assign_students.html',{'students':students,'teachers':teachers})
     if request.method=='POST':
         if not request.user_status=='admin':
@@ -1136,6 +1135,24 @@ def admin_assign_students(request):
             students = Student.objects.filter(admin=admin).filter(classes__isnull=True)
         return render(request, 'admin_assign_students.html',{'students':students,'teachers':teachers,'teacher_form':teacher_form,'student_form':student_form})
 
+def admin_remove_students(request):
+    
+    if request.method == "GET":
+        
+        if not request.user_status=='admin':
+            
+            return render(request, 'error.html', {'error':'Account holder not admin'})
+        else:
+            
+            admin = Admin.objects.get(user=request.user.id)
+            teachers = Teacher.objects.filter(admin=admin)
+            students = Student.objects.filter(admin=admin,classes__isnull=False)
+            print('teachers and students')
+            print(teachers)
+            print(students)
+            return render(request,'admin_remove_students.html',{'teachers':teachers,'students':students})
+        
+    
 """
 def teach(request):
     if request.method == "GET":

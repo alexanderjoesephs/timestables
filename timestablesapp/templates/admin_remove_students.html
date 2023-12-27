@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block title %}Home - Your App{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'admin_remove_students'%}">
+    <div style="text-align: center">
+    <select name="teacher" id="teacher">
+        <option>Choose a teacher</option>
+    {% for teacher in teachers %}
+        <option value="{{teacher}}">{{teacher}}</option>
+    {% endfor %}
+    
+    </select>
+    <br>
+    {% for student in students %}
+        <div class="{{student.classes}} studentdivs" style="display:none;">
+        <label for="{{student}}">{{student}}</label>
+        <input id="{{student}}" type="checkbox" class="students" name="student_selected" value="{{student}}">
+        </div>
+        
+    {% endfor %}
+    <button id="submitButton" type="submit" style="font-size:18px;display:none; margin:auto;margin-top:10px" name="Remove Users">Remove users</button>
+    </div>
+    </form>
+    <script>
+        let selector = document.getElementById('teacher')
+        let students = document.getElementsByClassName('students')
+        let studentdivs = document.getElementsByClassName('studentdivs')
+        let submitButton = document.getElementById('submitButton')
+        console.log(selector)
+        console.log(students)
+
+        
+
+        // Add event listener to detect changes
+        selector.addEventListener("change", function() {
+            // Get the selected value
+            let selectedValue = selector.value;
+            console.log(selectedValue);
+            if(selectedValue=='Choose a teacher'){
+                submitButton.style.display = 'none';
+            }
+            else{
+                submitButton.style.display = 'block';
+            }
+
+        for(let i = 0;i<students.length;i++){
+            students[i].checked = false;
+            if(studentdivs[i].classList.contains(selectedValue)){
+                studentdivs[i].style.display = 'block'
+            }
+            else{
+                studentdivs[i].style.display = 'none'
+            }
+        }
+    });
+    </script>
+{% endblock %}

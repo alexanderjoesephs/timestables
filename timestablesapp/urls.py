@@ -18,8 +18,9 @@ urlpatterns = [
     path('student_ready',views.student_ready,name='student_ready'),
     path('student_stats',views.student_stats,name='student_stats'),
     path('admin_create_user',views.admin_create_user,name='admin_create_user'),
-    path('admin_assign_students',views.admin_assign_students,name='admin_assign_students')
-    
+    path('admin_assign_students',views.admin_assign_students,name='admin_assign_students'),
+    path('admin_remove_students',views.admin_remove_students,name='admin_remove_students')
+
     ]
 """
     path('teach', views.teach, name='teach'),
