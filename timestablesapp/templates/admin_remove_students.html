@@ -4,6 +4,8 @@
 
 {% block content %}
     <form method="post" action="{% url 'admin_remove_students'%}">
+        {% csrf_token %}
+
     <div style="text-align: center">
     <select name="teacher" id="teacher">
         <option>Choose a teacher</option>
