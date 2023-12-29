@@ -197,7 +197,7 @@ li {
           <a href="{% url 'teacher_set_work' %}">Set Work</a>
           <a href="{% url 'teacher_print_flashcards' %}">Print Flashcards</a>
         {% elif request.user_status == 'admin' %}
-          <a href="#home">View stats</a>
+          <a href="{% url 'admin_stats' %}">View stats</a>
           <a href="{% url 'admin_create_user' %}">Create users</a>
           <a href="{% url 'admin_assign_students' %}">Assign students</a>
           <a href="{% url 'admin_remove_students' %}">Remove students</a>
