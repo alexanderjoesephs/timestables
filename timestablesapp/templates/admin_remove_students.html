@@ -7,22 +7,32 @@
         {% csrf_token %}
 
     <div style="text-align: center">
+    <label for="teacher">Select a teacher</label>
     <select name="teacher" id="teacher">
-        <option>Choose a teacher</option>
+       <!-- <option></option> -->
     {% for teacher in teachers %}
         <option value="{{teacher}}">{{teacher}}</option>
     {% endfor %}
     
     </select>
     <br>
+    <table style="max-width:300px; margin: 0 auto;">
+        <tbody>
     {% for student in students %}
-        <div class="{{student.classes}} studentdivs" style="display:none;">
-        <label for="{{student}}">{{student}}</label>
-        <input id="{{student}}" type="checkbox" class="students" name="student_selected" value="{{student}}">
-        </div>
+    <tr class="{{student.classes}} studentdivs" style="display:none;">
         
+        <td width="250px">
+        {{student}}
+        </td>
+        <td width="50px">
+        <input id="{{student}}" type="checkbox" class="students" name="student_selected" value="{{student}}">
+        </td>
+        
+    </tr>
     {% endfor %}
-    <button id="submitButton" type="submit" style="font-size:18px;display:none; margin:auto;margin-top:10px" name="Remove Users">Remove users</button>
+    </tbody>
+    </table>
+    <button id="submitButton" type="submit" style="font-size:16px;display:none; margin:auto;margin-top:10px" name="Remove Users">Remove students</button>
     </div>
     </form>
     <script>
@@ -33,6 +43,25 @@
         console.log(selector)
         console.log(students)
 
+
+        let selectedValue = selector.value;
+        console.log(selectedValue);
+        if(selectedValue=='Choose a teacher'){
+            submitButton.style.display = 'none';
+        }
+        else{
+            submitButton.style.display = 'block';
+        }
+
+        for(let i = 0;i<students.length;i++){
+            students[i].checked = false;
+            if(studentdivs[i].classList.contains(selectedValue)){
+                studentdivs[i].style.display = 'block'
+            }
+            else{
+                studentdivs[i].style.display = 'none'
+            }
+        }
         
 
         // Add event listener to detect changes
@@ -47,15 +76,15 @@
                 submitButton.style.display = 'block';
             }
 
-        for(let i = 0;i<students.length;i++){
-            students[i].checked = false;
-            if(studentdivs[i].classList.contains(selectedValue)){
-                studentdivs[i].style.display = 'block'
+            for(let i = 0;i<students.length;i++){
+                students[i].checked = false;
+                if(studentdivs[i].classList.contains(selectedValue)){
+                    studentdivs[i].style.display = 'block'
+                }
+                else{
+                    studentdivs[i].style.display = 'none'
+                }
             }
-            else{
-                studentdivs[i].style.display = 'none'
-            }
-        }
-    });
+        });
     </script>
 {% endblock %}

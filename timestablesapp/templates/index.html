@@ -25,6 +25,7 @@
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: calc(100vh - 20px - 50px - 20px - 20px - 20px);
   }
 input[type="text"]{
     width: 300px; /* Set the width of the input box */
@@ -75,6 +76,7 @@ input[type="text"]{
   nav {
     background-color: #333;
     overflow: hidden;
+   
   }
 
   nav a {
@@ -105,6 +107,11 @@ input[type="text"]{
       float: none;
       display: block;
       text-align: left;
+    }
+  }
+  @media screen and (min-width: 1001px) {
+    nav{
+      height:50px;
     }
   }
 

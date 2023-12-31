@@ -1,4 +1,3 @@
-render the data in add/delete students with a table so it is more lined up
+render the data in add/delete students with a table so it is more lined up - done
 allow teachers to edit an amount of attempts for each student and an amount of seconds using a Settings model onetoone with each user
-create a user form yourself which combines a first name and a class name to make a user (this should let you have a few classes on your app without repeating usernames)
-
+fix @csrf exemption on create attempt by using javascript csrf generation
