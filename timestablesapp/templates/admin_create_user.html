@@ -3,18 +3,22 @@
 {% block title %}Home - Your App{% endblock %}
 
 {% block content %}
+    
     <h2>Create user</h2>
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
     <p>Password must be at least eight characters long and include one number.</p>
-    <form method="POST" actions="">
+    <form method="post" actions="{% url 'admin_create_user' %}">
     {% csrf_token %}
     {% for field in form %}
         {{field.label}}
         {{field}}
         <br>
     {%endfor%}
-    {%if form%}
-    <button type="submit" name="Create User">submit</button>
-    {% endif %}
-    <p>{{message}}</p>  
-</form>
+    <button type="submit">Create user</button>
+    </form>
+    
+    
+    
 {% endblock %}

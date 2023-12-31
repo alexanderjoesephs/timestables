@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, HttpResponse
-from .forms import CustomisedUserCreationForm
+#from .forms import CustomisedUserCreationForm
+from .forms import CustomUserCreationForm
 from .models import Question, Attempt, User, Teacher, Student, Test, Admin
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -1009,22 +1010,23 @@ def student_stats(request):
             img_str4 = base64.b64encode(img_buffer4.read()).decode('utf-8')
             return render(request,'student_stats.html',{'info_string':info_string,'heatmap_image': img_str,'heatmap_image2': img_str2,'heatmap_image3': img_str3,'heatmap_image4': img_str4})
 
+
+
 def admin_create_user(request):
     if request.method=='GET':
         if Admin.objects.filter(user=request.user.id):
-            form = CustomisedUserCreationForm()
+            form = CustomUserCreationForm()
             return render(request,'admin_create_user.html',{'form':form})
         else:
             return render(request, 'error.html', {'error':'Account holder not admin'})
-    if request.method=='POST':
-        
+    if request.method=='POST':    
         if not request.user_status == 'admin': 
             return render(request, 'error.html', {'error':'Account holder not admin'})
         else:
-            form = CustomisedUserCreationForm(request.POST)
+            form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 form.save()
-                username = form.cleaned_data['username']
+                username = form.cleaned_data['first_name'] + form.cleaned_data['class_name']
                 user_to_assign_times_tables = User.objects.get(username=username)
                 admin_creating_account = Admin.objects.get(user=request.user)
                 for i in range(2,13):
