@@ -1043,11 +1043,11 @@ def admin_create_user(request):
                     s.user = user_to_assign_times_tables
                     s.admin = admin_creating_account
                     s.save()
-                return render(request, "create_user.html",{'form':form,'message':f"Successfully created user {user_to_assign_times_tables.username}"})
+                return render(request, "admin_create_user.html",{'form':form,'message':f"Successfully created user {user_to_assign_times_tables.username}"})
 
             else:
                 
-                return render(request, "create_user.html",{'form':form,'message':"Couldn't create user"})
+                return render(request, "admin_create_user.html",{'form':form,'message':"Couldn't create user"})
             
 def admin_assign_students(request):
     if request.method=='GET':
