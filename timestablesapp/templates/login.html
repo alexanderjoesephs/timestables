@@ -9,6 +9,13 @@
 <button type="submit">Logout</button>
 </form>
 {% else %}
+<h4>Demo account details<h4>
+<p>username:demo_teacher</p>
+<p>password:demowordt1</p>
+<p>username:demo_student1</p>
+<p>password:demowords1</p>
+<p>username:demo_student2</p>
+<p>password:demowords2</p>
 <form class="form" method="post" action="{% url 'user_login' %}">
 {% csrf_token %}
 <p>Username</p>
