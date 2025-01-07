@@ -284,7 +284,7 @@ input[type="text"], input[type="password"], select {
 }
 
 input[type="text"]:focus, input[type="password"]:focus, select:focus {
-    border-color: #007bff; /* Blue border on focus */
+    
     outline: none;
 }
 
@@ -319,11 +319,46 @@ a, input[type="checkbox"], li {
 }
 
 /* Checkbox */
+/* Checkbox */
 input[type="checkbox"] {
-    width: 30px;
-    height: 30px;
-    border: 2px solid #ccc; /* Light grey border */
-    background-color: #ffffff; /* White background */
+  width: 30px; /* Increased size */
+  height: 30px; /* Increased size */
+  border: 2px solid #ccc; /* Light grey border */
+  background-color: #fff; /* White background */
+  appearance: none; /* Remove default browser styling */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, border-color 0.3s, transform 0.2s ease-in-out;
+  cursor: pointer; /* Pointer cursor */
+  position: relative; /* Required for positioning the tick */
+}
+
+/* When checkbox is checked */
+input[type="checkbox"]:checked {
+  background-color: #f0f0f0; /* Light grey background when checked */
+  border-color: #777; /* Dark grey border when checked */
+}
+
+/* Tick mark when checked */
+input[type="checkbox"]:checked::after {
+  content: '✔'; /* Tick symbol */
+  font-size: 20px; /* Size of the tick */
+  color: #777; /* Dark grey tick color */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset by half of the width and height to perfectly center */
+}
+
+/* Hover state */
+input[type="checkbox"]:hover {
+  background-color: #f8f8f8; /* Light grey hover effect */
+  border-color: #555; /* Darker grey border on hover */
+}
+
+/* Focused state */
+input[type="checkbox"]:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Soft dark shadow */
 }
 
 /* List Items */
@@ -335,6 +370,67 @@ li {
     background-color: #f9f9f9; /* Very light grey background */
     color: #333; /* Dark text */
     max-width: 300px;
+}
+
+/* Date Inputs */
+input[type="date"] {
+  width: 150px; /* Increase width */
+  height: 45px; /* Increase height */
+  padding: 10px; /* Add padding for better visual appearance */
+  font-size: 16px; /* Adjust font size */
+  border: 2px solid #ccc; /* Light grey border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text */
+  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+/* Date input focus state */
+input[type="date"]:focus {
+  border-color: #777; /* Darker grey border on focus */
+  background-color: #f8f8f8; /* Light grey background on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Date input hover state */
+input[type="date"]:hover {
+  border-color: #555; /* Darker grey border on hover */
+  background-color: #f4f4f4; /* Slightly darker background on hover */
+}
+
+select {
+  width: 300px; /* Increase width */
+  height: 45px; /* Increase height */
+  padding: 10px; /* Add padding for better visual appearance */
+  font-size: 16px; /* Adjust font size */
+  border: 2px solid #ccc; /* Light grey border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  color: #333; /* Dark text */
+  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
+  margin: 10px 0; /* Add some margin for spacing */
+  appearance: none; /* Remove default browser styling */
+}
+
+/* Remove blue outline and color for focus */
+select:focus {
+  border-color: #777; /* Darker grey border on focus (same as checked checkboxes) */
+  background-color: #f8f8f8; /* Light grey background on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Remove blue color and set grey border on hover */
+select:hover {
+  border-color: #555; /* Darker grey border on hover (same as checked checkboxes) */
+  background-color: #f4f4f4; /* Slightly darker background on hover */
+}
+
+/* Remove the default dropdown arrow styling */
+select::-ms-expand {
+  display: none; /* Hides the dropdown arrow in IE */
 }
 
 /* Responsive Navbar */

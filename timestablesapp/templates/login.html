@@ -10,14 +10,14 @@
 </form>
 {% else %}
 <p>To use the app you will need to either log in as a teacher or a student. The teacher can edit which times tables their students study, view their results and print flaschcards. Students can practise the times tables their teacher has set.</p>
-<p style="font-weight: bold">Teacher account</p>  
-<p style="font-weight: lighter">username:demo_teacher</p>
-<p style="font-weight: lighter">password:demowordt1</p>
-<p style="font-weight: bold">Student accounts</p>
-<p style="font-weight: lighter">username:demo_student1</p>
-<p style="font-weight: lighter">password:demowords1</p>
-<p style="font-weight: lighter">username:demo_student2</p>
-<p style="font-weight: lighter">password:demowords2</p>
+<h3>Teacher account</h4>  
+<p>username: teacher</p>
+<p>password: pword123</p>
+<h3>Student accounts</h4>
+<p>username: pupil1</p>
+<p>password: pword123</p>
+<p>username: pupil2</p>
+<p>password: pword123</p>
 <form class="form" method="post" action="{% url 'user_login' %}">
 {% csrf_token %}
 <p>Username</p>
