@@ -4,6 +4,7 @@
     <head>
         <title>Teach Tables</title>
         <!--<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">-->
+        <!--
         <style>
             body {
     font-family: 'Arial', sans-serif;
@@ -185,7 +186,173 @@ li {
   background-color: #f9f9f9;
   max-width: 300px; /* Optional: set a maximum width if needed */
 }
-  </style>
+  </style>-->
+<style>
+  /* Import a clean and modern font */
+/* Import a clean and modern font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Light grey background */
+    display: block;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #333; /* Dark text */
+}
+
+.content {
+    margin: 80px auto 20px auto;
+    padding: 20px 40px;
+    background-color: #ffffff; /* White background */
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    min-height: calc(100vh - 140px);
+    max-width: 1200px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333; /* Dark text */
+}
+
+nav {
+    background-color: #ffffff; /* Light background */
+    border-bottom: 1px solid #ddd; /* Subtle border */
+    overflow: hidden;
+    padding: 0 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+nav a {
+    float: left;
+    display: block;
+    color: #333; /* Dark text */
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #f2f2f2; /* Light hover effect */
+    color: #000; /* Black text */
+}
+
+button {
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #e9ecef; /* Light grey button */
+    color: #333; /* Dark text */
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #dee2e6; /* Slightly darker grey hover */
+}
+
+/* Inputs and form elements */
+input[type="text"], input[type="password"], select {
+    width: 300px;
+    height: 40px;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid #ccc; /* Subtle border */
+    border-radius: 5px;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text */
+}
+
+input[type="text"]:focus, input[type="password"]:focus, select:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd; /* Subtle border */
+}
+
+th {
+    background-color: #f8f9fa; /* Light grey header */
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #333; /* Dark text */
+}
+
+tr:hover {
+    background-color: #f2f2f2; /* Row hover effect */
+}
+
+/* General Hover Effects */
+a, input[type="checkbox"], li {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc; /* Light grey border */
+    background-color: #ffffff; /* White background */
+}
+
+/* List Items */
+li {
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Very light grey background */
+    color: #333; /* Dark text */
+    max-width: 300px;
+}
+
+/* Responsive Navbar */
+@media screen and (max-width: 1000px) {
+    nav a {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+    .nav-right {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+}
+
+</style>
+
   </head>
     
     <body>
