@@ -1,7 +1,8 @@
 {% extends 'index.html' %}
 
 {% block content %}
-<h2>Login</h2>
+<div class="login">
+
 {% if user.is_authenticated %}
 <p>You are logged in as {{request.user}}</p>
 <form method="post" action="{% url 'user_logout' %}">
@@ -9,16 +10,8 @@
 <button type="submit">Logout</button>
 </form>
 {% else %}
-<p>To use the app you will need to either log in as a teacher or a student. The teacher can edit which times tables their students study, view their results and print flaschcards. Students can practise the times tables their teacher has set.</p>
-<h3>Teacher account</h4>  
-<p>username: teacher</p>
-<p>password: pword123</p>
-<h3>Student accounts</h4>
-<p>username: pupil1</p>
-<p>password: pword123</p>
-<p>username: pupil2</p>
-<p>password: pword123</p>
 <form class="form" method="post" action="{% url 'user_login' %}">
+  <h2>Login</h2>
 {% csrf_token %}
 <p>Username</p>
 <input name="username" type="text">
@@ -26,10 +19,42 @@
 <input name="password" type="password">
 <br>
 <button type="submit">Login</button>
+
+<table>
+  <h4>
+    Demo accounts
+  </h3>
+  <thead>
+    <tr>
+      <th>Account type</th>
+      <th>Username</th>
+      <th>Password</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Teacher</td>
+      <td>teacher</td>
+      <td>pword123</td>
+    </tr>
+    <tr>
+      <td>Student</td>
+      <td>pupil1</td>
+      <td>pword123</td>
+    </tr>
+    <tr>
+      <td>Student</td>
+      <td>pupil2</td>
+      <td>pword123</td>
+    </tr>
+  </tbody>
+</table>
 </form>
 {% endif %}
 {% if loginfailedmessage %}
 {{loginfailedmessage}}
 {%endif%}
-  
+</div>
 {% endblock %}
+
+

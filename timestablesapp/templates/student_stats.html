@@ -7,14 +7,14 @@
     <p>View stats for a particular time frame.</p>
     <form method="post" action="{% url 'student_stats'%}">
         {% csrf_token %}
-        <div style="display: inline-block" class="formdiv">
+        <div class="formdiv">
             <label for="dateFrom">Date From:</label>
             <input type="date" id="dateFrom" name="date_from">
             <label for="dateTo">Date To:</label>
             <input type="date" id="dateTo" name="date_to">
         </div>
         
-        <div style="display: inline-block" class="formdiv">
+        <div  class="formdiv">
             <button type="submit">Submit</button>
         </div>
         

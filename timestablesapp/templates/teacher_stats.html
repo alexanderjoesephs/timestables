@@ -7,15 +7,14 @@
     <p>View stats for students or a whole class for a particular time frame.</p>
     <form method="post" action="{% url 'teacher_stats'%}">
         {% csrf_token %}
-        <div style="display: inline-block" class="formdiv">
+        <div class="formdiv">
         
         <input type="radio" id="wholeClass" name="data type" value="whole class" checked>
         <label for="option1">Whole class</label><br>
         <input type="radio" id="individualStudent" name="data type" value="individual student" >
         <label for="option2">Individual student</label><br>
         
-        </div>
-        <div style="display: inline-block; color: grey;" id="studentSelectDiv" class="formdiv">
+        
             <label for="selectStudent">Select a student</label>
             <select id="selectStudent" name="student" disabled>
                 {% for student in students %}
@@ -23,14 +22,14 @@
                 {% endfor %}
               </select>
         </div>
-        <div style="display: inline-block" class="formdiv">
+        <div class="formdiv">
             <label for="dateFrom">Date From:</label>
             <input type="date" id="dateFrom" name="date_from">
             <label for="dateTo">Date To:</label>
             <input type="date" id="dateTo" name="date_to">
         </div>
         
-        <div style="display: inline-block" class="formdiv">
+        <div  class="formdiv">
             <button type="submit">Submit</button>
         </div>
         

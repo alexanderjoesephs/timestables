@@ -871,6 +871,7 @@ def student_stats(request):
 
             # Display the pivot table
             #plt.figure(figsize=(10, 8))
+
             plt.figure(figsize=(7, 7))
             norm = plt.Normalize(vmin=0, vmax=1)
             sns.heatmap(pivot_table, annot=True, fmt=".0%", cmap="RdYlGn", norm=norm, cbar=False)
@@ -932,6 +933,7 @@ def student_stats(request):
             #invert y axis
             ax = plt.gca()
             ax.invert_yaxis()
+            ax.set_facecolor("#f1f7fe")
             img_buffer2 = BytesIO()
             plt.savefig(img_buffer2, format='png')
             img_buffer2.seek(0)
@@ -984,13 +986,14 @@ def student_stats(request):
             grouped_by_day = effort_df.groupby('day').size().reset_index(name='count')
             
             print(grouped_by_day)
+            
             plt.figure(figsize=(6, 6))
             sns.barplot(x='day', y='count', data=grouped_by_day,color=(255/255, 255/255, 120/255))
             plt.title(f'{total_attempts} questions grouped by day.')
             plt.xlabel('Day')
             plt.ylabel('Attempts')
             
-            
+            ax.set_facecolor("#f1f7fe")
             img_buffer3 = BytesIO()
             plt.savefig(img_buffer3, format='png')
             img_buffer3.seek(0)
@@ -1004,6 +1007,8 @@ def student_stats(request):
             plt.title(f'{total_attempts} questions grouped by correctness.')
             plt.xlabel('Correct')
             plt.ylabel('Attempts')
+
+            ax.set_facecolor("#f1f7fe")
             img_buffer4 = BytesIO()
             plt.savefig(img_buffer4, format='png')
             img_buffer4.seek(0)

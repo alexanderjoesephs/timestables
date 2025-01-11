@@ -3,323 +3,50 @@
 <html>
     <head>
         <title>Teach Tables</title>
-        <!--<link rel="stylesheet" type="text/css" href="{% static '/css/style.css' %}">-->
-        <!--
-        <style>
-            body {
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: slategray;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px; /* Change this value to adjust the text size */
-  }
-
-  .content {
-    margin:20px;
-    padding:20px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    min-height: calc(100vh - 20px - 50px - 20px - 20px - 20px);
-  }
-input[type="text"]{
-    width: 300px; /* Set the width of the input box */
-    height: 40px; /* Set the height of the input box */
-    padding: 10px; /* Add some padding for better visual appearance */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    text-align: center; /* Center the text horizontally within the input box */
-    font-size: 20px; /* Set the font size for the text */
-    margin: 0 auto; /* Center the input box horizontally within its container */
-    display: block; /* Make the input box a block-level element */
-  }
-  
-  select{
-    width: 300px; /* Set the width of the input box */
-    height: 45px; /* Set the height of the input box */
-    padding: 10px; /* Add some padding for better visual appearance */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    text-align: center; /* Center the text horizontally within the input box */
-    font-size: 20px; /* Set the font size for the text */
-    margin: 0 auto; /* Center the input box horizontally within its container */
-    
-  }
-  input[type="password"]{
-    width: 300px; /* Set the width of the input box */
-    height: 40px; /* Set the height of the input box */
-    padding: 10px; /* Add some padding for better visual appearance */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    text-align: center; /* Center the text horizontally within the input box */
-    font-size: 20px; /* Set the font size for the text */
-    margin: 0 auto; /* Center the input box horizontally within its container */
-    display: block; /* Make the input box a block-level element */
-  }
-  #id_account_type{
-    display:block;
-  }
-  button {
-    width: 150px; /* Set the width of the button */
-    height: 50px; /* Set the height of the button */
-    padding: 10px; /* Add padding to the button for better visual appearance */
-    font-size: 20px; /* Set the font size for the text on the button */
-  }
-  .formdiv{
-    margin:5px;
-    padding:5px;
-    
-  }
-
-  nav {
-    background-color: #333;
-    overflow: hidden;
-   
-  }
-
-  nav a {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-  }
-
-  nav a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-
-  .nav-right {
-    float: right;
-  }
-
-  @media screen and (max-width: 1000px) {
-    nav a {
-      float: none;
-      display: block;
-      text-align: left;
-    }
-    .nav-right {
-      float: none;
-      display: block;
-      text-align: left;
-    }
-  }
-  @media screen and (min-width: 1001px) {
-    nav{
-      height:50px;
-    }
-  }
-
-  
-  
-
-  .graphContainer{
-    display: flex; 
-    justify-content: space-evenly;
-  }
-  
-  @media (max-width: 1220px) {
-    .graphContainer {
-        flex-direction: column; /* Change to column layout */
-        align-items: center; /* Center items vertically in columns */
-    }
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 18px;
-    text-align: left;
-  }
-  
-  th, td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  th {
-    background-color: #f2f2f2;
-  }
-
-  tr:hover {
-    background-color: #f5f5f5;
-  }
-
-  input[type="checkbox"] {
-    width: 30px;
-    height: 30px;
-    border: 2px solid #ccc;
-    background-color: #fff;
-  }
-
-  .checkboxholder{
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-  
-  .gamecontainer{
-    font-size: 28px;
-  }
-
-  .gamecontainer input[type="text"] {
-    width: 300px;      /* Increased width */
-    height: 50px;      /* Increased height */
-    font-size: 28px;   /* Increased font size */
-}
-ul {
-  list-style-type: none; /* Removes the bullet points */
-  padding: 0;
-}
-
-li {
-  margin: 10px auto; /* This will center the list items horizontally */
-  padding: 10px;
-  border: 2px solid #ccc; /* Setting the border width to 3px */
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  max-width: 300px; /* Optional: set a maximum width if needed */
-}
-  </style>-->
+        <meta charset="utf-8">
+        <meta name="viewport" 
+          content="width=device-width,
+                   initial-scale=1.0">
+                   
+    <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="style>sheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 <style>
-  /* Import a clean and modern font */
-/* Import a clean and modern font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-
-body {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+  
+  * {
+    font-family: "Poppins";
+    
+  }
+  
+  body{
+    background: #dde5f4;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Light grey background */
-    display: block;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    color: #333; /* Dark text */
-}
-
-.content {
-    margin: 80px auto 20px auto;
-    padding: 20px 40px;
-    background-color: #ffffff; /* White background */
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    min-height: calc(100vh - 140px);
-    max-width: 1200px;
-    box-sizing: border-box;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333; /* Dark text */
-}
-
-nav {
-    background-color: #ffffff; /* Light background */
-    border-bottom: 1px solid #ddd; /* Subtle border */
-    overflow: hidden;
-    padding: 0 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-}
-
-nav a {
-    float: left;
-    display: block;
-    color: #333; /* Dark text */
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 16px;
-    transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-nav a:hover {
-    background-color: #f2f2f2; /* Light hover effect */
-    color: #000; /* Black text */
-}
-
-button {
-    width: 150px;
-    height: 50px;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 500;
-    background-color: #e9ecef; /* Light grey button */
-    color: #333; /* Dark text */
-    border: 1px solid #ccc; /* Subtle border */
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #dee2e6; /* Slightly darker grey hover */
-}
-
-/* Inputs and form elements */
-input[type="text"], input[type="password"], select {
-    width: 300px;
-    height: 40px;
-    padding: 10px;
-    box-sizing: border-box;
-    text-align: center;
-    font-size: 16px;
-    margin: 0 auto;
-    display: block;
-    border: 1px solid #ccc; /* Subtle border */
-    border-radius: 5px;
-    background-color: #ffffff; /* White background */
-    color: #333; /* Dark text */
-}
-
-input[type="text"]:focus, input[type="password"]:focus, select:focus {
     
-    outline: none;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 16px;
-    text-align: left;
-}
-
-th, td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd; /* Subtle border */
-}
-
-th {
-    background-color: #f8f9fa; /* Light grey header */
-    font-weight: 500;
-    text-transform: uppercase;
-    color: #333; /* Dark text */
-}
-
-tr:hover {
-    background-color: #f2f2f2; /* Row hover effect */
-}
-
-/* General Hover Effects */
-a, input[type="checkbox"], li {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Checkbox */
-/* Checkbox */
+  }
+  
+  
+  
+  
+  .content {
+    margin: 0 auto;  
+    margin-top: 35px;
+    width: fit-content;
+    max-width: 90%;
+    background: #f1f7fe;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    gap: 2em;
+    padding: 10px 50px;
+    
+    text-align: center;
+    align-items: center;
+  }
+  
+  /* Checkbox */
 input[type="checkbox"] {
   width: 30px; /* Increased size */
   height: 30px; /* Increased size */
@@ -361,122 +88,201 @@ input[type="checkbox"]:focus {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Soft dark shadow */
 }
 
-/* List Items */
-li {
-    margin: 10px auto;
-    padding: 10px;
-    border: 1px solid #ddd; /* Subtle border */
-    border-radius: 5px;
-    background-color: #f9f9f9; /* Very light grey background */
-    color: #333; /* Dark text */
-    max-width: 300px;
+  input[type="text"],
+  input[type="password"] {
+    
+    text-align: center;
+    height: 50px;
+    width: 200px;
+    border-radius: 25px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 0px solid;
+    box-shadow: inset 0 0 0 30px white;
+    
+  }
+
+  
+
+  
+
+  button {
+    padding: 1em;
+    background: linear-gradient(to right, #3e4684, #4a54a4);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    display: block;
+    min-width: 100px;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+    background-size: 200% auto;
 }
 
-/* Date Inputs */
-input[type="date"] {
-  width: 150px; /* Increase width */
-  height: 45px; /* Increase height */
-  padding: 10px; /* Add padding for better visual appearance */
-  font-size: 16px; /* Adjust font size */
-  border: 2px solid #ccc; /* Light grey border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #fff; /* White background */
-  color: #333; /* Dark text */
-  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
-  transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
-  margin: 10px 0; /* Add some margin for spacing */
+button:hover {
+    background-position: right center;
+    cursor: pointer;
 }
 
-/* Date input focus state */
-input[type="date"]:focus {
-  border-color: #777; /* Darker grey border on focus */
-  background-color: #f8f8f8; /* Light grey background on focus */
-  outline: none; /* Remove default outline */
+.formdiv{
+  margin-top: 20px;
+}
+.topnav {
+  
+  overflow: hidden;
+  background: #FAF9F6;
+
 }
 
-/* Date input hover state */
-input[type="date"]:hover {
-  border-color: #555; /* Darker grey border on hover */
-  background-color: #f4f4f4; /* Slightly darker background on hover */
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
 
-select {
-  width: 300px; /* Increase width */
-  height: 45px; /* Increase height */
-  padding: 10px; /* Add padding for better visual appearance */
-  font-size: 16px; /* Adjust font size */
-  border: 2px solid #ccc; /* Light grey border */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #fff; /* White background */
-  color: #333; /* Dark text */
-  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
-  transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
-  margin: 10px 0; /* Add some margin for spacing */
-  appearance: none; /* Remove default browser styling */
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }
 
-/* Remove blue outline and color for focus */
-select:focus {
-  border-color: #777; /* Darker grey border on focus (same as checked checkboxes) */
-  background-color: #f8f8f8; /* Light grey background on focus */
-  outline: none; /* Remove default outline */
+/* Add an active class to highlight the current page */
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
 }
 
-/* Remove blue color and set grey border on hover */
-select:hover {
-  border-color: #555; /* Darker grey border on hover (same as checked checkboxes) */
-  background-color: #f4f4f4; /* Slightly darker background on hover */
+/* Hide the link that should open and close the topnav on small screens */
+.topnav .icon {
+  display: none;
+}
+  
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
 }
 
-/* Remove the default dropdown arrow styling */
-select::-ms-expand {
-  display: none; /* Hides the dropdown arrow in IE */
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+  
+  .checkbtn {
+    font-size: 30px;
+    color: black;
+    cursor: pointer;
+    display: none;
+  }
+  
+  #check {
+    display: none;
+  }
+  
+
+
+
+  
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: white;  /* Changed to plain white for contrast */
+    border-radius: 15px;
+    overflow: hidden;
+    
+    margin: 20px 0;
 }
 
-/* Responsive Navbar */
-@media screen and (max-width: 1000px) {
-    nav a {
-        float: none;
-        display: block;
-        text-align: left;
-    }
-    .nav-right {
-        float: none;
-        display: block;
-        text-align: left;
-    }
+th {
+  
+    font-weight: 500;
+    padding: 10px 15px;
+    text-align: left;
+    font-size: 0.85rem;  /* Reduced base font size for the table */
+
 }
+
+td {
+    padding: 8px 15px;
+    color: #4a4a4a;
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background-color: #f8fafd;  /* Lighter hover effect */
+    transition: background-color 0.3s ease;
+}
+select:not(:-internal-list-box) {
+  overflow: auto !important;  /* Example: Change overflow behavior to auto */
+  border: 1px solid #ccc;    /* Example: Add a border */
+  padding: 5px;               /* Example: Add padding */
+  background-color: #f9f9f9;   /* Example: Customize background */
+}
+    
+    
+  
+    
+
+
+
+
+
+
 
 </style>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
     
     <body>
-      <nav>
-        {% if request.user_status == 'logged_out' %}
-        <a href="{% url 'user_login' %}">Log in</a>
-        {% else %}
-        <a>Logged in as {{request.user}}</a>
-        <a onclick="submitForm()">Log out</a>
-        {% endif %}
-        {% if request.user_status == 'student' %}
+      <div class="topnav" id="myTopnav">
+        
+        
+          {% if request.user_status == 'logged_out' %}
+          <a href="{% url 'user_login' %}">Log in</a>
+          {% else %}
+          <a>Logged in as {{request.user}}</a>
+          <a onclick="submitForm()">Log out</a>
+          {% endif %}
+          {% if request.user_status == 'student' %}
           <a href="{% url 'student_ready'%}">Practise times tables</a>
           <a href="{% url 'student_stats' %}">View stats</a>
-        {% elif request.user_status == 'teacher' %}
+          {% elif request.user_status == 'teacher' %}
           <a href="{% url 'teacher_stats' %}">View Stats</a>
-          <a href="{% url 'teacher_set_work' %}">Set Work</a>
-          <a href="{% url 'teacher_print_flashcards' %}">Print Flashcards</a>
+            <a href="{% url 'teacher_set_work' %}">Set Work</a>
+              <a href="{% url 'teacher_print_flashcards' %}">Print Flashcards</a>
         {% elif request.user_status == 'admin' %}
-          <a href="{% url 'admin_stats' %}">View stats</a>
+        <a href="{% url 'admin_stats' %}">View stats</a>
           <a href="{% url 'admin_create_user' %}">Create users</a>
-          <a href="{% url 'admin_assign_students' %}">Assign students</a>
-          <a href="{% url 'admin_remove_students' %}">Remove students</a>
+            <a href="{% url 'admin_assign_students' %}">Assign students</a>
+              <a href="{% url 'admin_remove_students' %}">Remove students</a>
         {% endif %}
-        <div class="nav-right">
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        </div>
-      </nav>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+          <i class="fa fa-bars"></i>
+        </a>
+        
+      </div>
       
       <div style="display:none;">
       <form id="logoutForm" method="post" action="{% url 'user_logout' %}">
@@ -496,6 +302,18 @@ select::-ms-expand {
           // Submit the form
           form.submit();
         }
+        function myFunction() {
+          var x = document.getElementById("myTopnav");
+          if (x.className === "topnav") {
+            x.className += " responsive";
+          } else {
+            x.className = "topnav";
+          }
+        }
+        
+        
+        
+      
         </script>
         
     </body>
